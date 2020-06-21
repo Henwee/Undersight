@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block content %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="clearfix">
+    <div class="container d-flex h-100">
+      <div class="row justify-content-center align-self-center" data-aos="fade-up">
+        <div class="col-md-6 intro-info order-md-first order-last" data-aos="zoom-in" data-aos-delay="100">
+          <h2>Hold your<br>local politicians <span> Accountable!</span></h2>
+          <div>
+            <a href="#about" class="btn-get-started scrollto">Learn More!</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 intro-img order-md-last order-first" data-aos="zoom-out" data-aos-delay="200">
+          <img src="assets/img/intro-img.svg" alt="" class="img-fluid">
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+
+          <div class="col-lg-5 col-md-6">
+            <div class="about-img" data-aos="fade-right" data-aos-delay="100">
+              <img src="assets/img/hero%20image.jpg" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-7 col-md-6">
+            <div class="about-content" data-aos="fade-left" data-aos-delay="100">
+              <h2>About Us</h2>
+              <h3>We make it easy for you to make the right choices when it comes to your local politicians.</h3>
+              <p>In the current state of society, it has become ever important to make sure you make the right choice. With the election cycle coming up, putting the right politicians in office is crucial.</p>
+                <p>Here's how we work: </p>
+              <ul>
+                <li><i class="ion-android-checkmark-circle"></i>Make reviews on politicians in your area.</li>
+                <li><i class="ion-android-checkmark-circle"></i>Read reviews of politicians who are running for office.</li>
+                <li><i class="ion-android-checkmark-circle"></i>Make the right choice on election day.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- End About Section -->
+
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq">
+      <div class="container" data-aos="fade-up">
+        <header class="section-header">
+          <h3>Frequently Asked Questions</h3>
+          <p>Have any questions about Undersight?</p>
+        </header>
+
+        <ul id="faq-list" data-aos="fade-up" data-aos-delay="100">
+          <li>
+            <a data-toggle="collapse" class="collapsed" href="#faq1">How do I know reviews are legit?<i class="ion-android-remove"></i></a>
+            <div id="faq1" class="collapse" data-parent="#faq-list">
+              <p>
+                As with any other review system, it is not always to eliminate all fake or misinformed reviews. However, we have measures in place to prevent spam or repeated negative reviews by one user.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <a data-toggle="collapse" href="#faq2" class="collapsed">How can I trust this site?<i class="ion-android-remove"></i></a>
+            <div id="faq2" class="collapse" data-parent="#faq-list">
+              <p>
+                Our site relies on the support of the community. Thus, we also have to rely on the information that spreads within a community. While we work diligently to remove any incorrect information, we can't always factcheck every single review.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <a data-toggle="collapse" href="#faq3" class="collapsed">What types of politicians are included on this site?<i class="ion-android-remove"></i></a>
+            <div id="faq3" class="collapse" data-parent="#faq-list">
+              <p>
+                In addition to congress representatives, our sight currently supports mayors and and other local politicians. We are constantly updating our data base, so contact us below to have a politician in your area added in!
+              </p>
+            </div>
+            </li>
+
+        </ul>
+
+      </div>
+    </section><!-- End F.A.Q Section -->
+
+  </main><!-- End #main -->
+{% endblock content %}
