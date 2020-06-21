@@ -60,16 +60,18 @@
           <li class="active"><a href="index.html">Home</a></li>
           <li><a href="#about">About Us</a></li>
           <li><a href="{{ url_for('find_local_politicians') }}">Find Local Politicians</a></li>
+              {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('account') }}">Account</a></li>
                 <li><a href="{{ url_for('log_out') }}">Log Out</a></li>
+              {% else %}
                 <li><a href="{{ url_for('log_in') }}">Log In</a></li>
                 <li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
+              {% endif %}
         </ul>
       </nav><!-- .main-nav-->
 
     </div>
   </header><!-- End Header -->
-
-  <!-- flash message appear section
 
   <div class="row">
         <div class="col-md-8">
@@ -82,11 +84,8 @@
               {% endfor %}
             {% endif %}
           {% endwith %}
-
-          -->
-      <div class = "container"
           {% block content %}{% endblock %}
-      </div>
+        </div>
   <!--
         </div>
       </div>
@@ -310,7 +309,7 @@
       <div class="container" data-aos="zoom-out">
         <div class="row">
           <div class="col-lg-9 text-center text-lg-left">
-            <h3 class="cta-title">Don't see your your city or politcian on the site?</h3>
+            <h3 class="cta-title">Don't see your your city or politician on the site?</h3>
             <p class="cta-text">Simply contact us below and we will add your city/politician to or priority list. The Undersight team is always working to add new profiles to make reviews on. In the subject line, please include the city you wish to have added, and in the body, inlcude any politicians you would like to comment on specifically.</p>
           </div>
           <div class="col-lg-3 cta-btn-container text-center">

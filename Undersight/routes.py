@@ -3,14 +3,10 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from Undersight import app, db, bcrypt, mail
-from forms import (RegistrationForm, LoginForm, UpdateAccountForm, CommentForm,
-                             PostForm, RequestResetForm, ResetPasswordForm)
-from models import User, Post, Comment
+from Undersight.forms import (RegistrationForm, LoginForm, UpdateAccountForm, CommentForm,)
+from Undersight.models import User, Comment
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
-
-
-app = Flask(__name__)
 
 
 @app.route("/")
@@ -24,24 +20,63 @@ def find_local_politicians():
     return render_template('find_local_politicians.html', title = 'Find Local Politicians')
 
 
-@app.route("/log_in")
+@app.route("/log_in", methods=['GET', 'POST'])
 def log_in():
-    return render_template('log_in.html', title = 'Log In')
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('log_in.html', title = 'Log In', form=form)
 
 
 @app.route("/log_out")
-def log_out():
-    return render_template('log_out.html', title = 'Log Out')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 @app.route("/sign_up", methods=['GET', 'POST'])
 def sign_up():
-    return render_template('sign_up.html', title = 'Sign Up')
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('sign_up.html', title = 'Sign Up', form=form)
 
-@app.route("/logout")
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
+
+@app.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file, form=form)
+
 
 
 def save_picture(form_picture):
@@ -56,7 +91,3 @@ def save_picture(form_picture):
     i.save(picture_path)
 
     return picture_fn
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

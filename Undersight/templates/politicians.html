@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="politician.jpg">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="wikipedia.com/politician">First Last</a>
+          <a class="mr-2">wikipedia bio of politician</a>
+      </div>
+      <h2 class="article-title">{{ post.title }}</h2>
+      <p class="article-content">{{ post.content }}</p>
+    </div>
+
+  </article>
+
+{%for comment in comments%}
+    <img class="rounded-circle " style = "height:40px; width: 40px;" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ comment.author.username }}</a>
+        <small class="text-muted">{{ comment.timestamp.strftime('%Y-%m-%d') }}</small>
+      </div>
+      <p class="article-content">{{ comment.body }}</p>
+    </div>
+{%endfor%}
+
+{% endblock %}
