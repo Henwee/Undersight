@@ -77,7 +77,25 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+@app.route("/politician/<string:username>", methods = ['GET', ' POST'])
+def politician(username):
+    user = User.query.filter_by(username = username).first()
+    return render_template("politician.html",user=user)
 
+@app.route("/findlocalPoliticians")
+def localPoliticians():
+    users = User.query.filter(User.party != None)
+    return render_template('find_local_politicans.html', users = users)
+
+@app.route('/politicians/<username>')
+def politicians(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body = form.body.data, author = current_user)
+        db.session.add(comment)
+        db.session.commit()
+    return render_template('politician.html',form = form,user=user)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)

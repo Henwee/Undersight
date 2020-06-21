@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+    <div class="media-body">
+      <h2 class="article-title">Location: {{ user.userAddress }}</h2>
+      <p class="article-content">Political Party: {{ user.party}}</p>
+    </div>
+
+  </article>
+
+{%for comment in comments%}
+<article class="media content-section">
+    <img class="rounded-circle " style = "height:40px; width: 40px;" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ comment.author.username }}</a>
+        <small class="text-muted">{{ comment.timestamp.strftime('%Y-%m-%d') }}</small>
+      </div>
+      <p class="article-content">{{ comment.body }}</p>
+    </div>
+</article>
+{%endfor%}
+{%if current_user.is_authenticated%}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.body.label(class="form-control-label") }}
+                {% if form.body.errors %}
+                    {{ form.body(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.body.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.body(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{%endif%}
+{% endblock content %}
